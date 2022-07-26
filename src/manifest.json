@@ -22,7 +22,7 @@
       "matches": ["https://meet.google.com/*"],
       "exclude_matches": ["https://meet.google.com/"],
       "css": ["my-styles.css"],
-      "js": ["twemoji.min.js", "replacer.js"]
+      "js": ["twemoji.min.js", "keys.js", "replacer.js"]
     }
   ]
 }
