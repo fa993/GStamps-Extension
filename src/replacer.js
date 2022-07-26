@@ -1,4 +1,6 @@
 
+/* Built Using Twemoji.js : https://twemoji.twitter.com */
+
 const CHAT_MESSAGE_CSS_CLASS_NAME = "oIy2qc"
 const CHAT_MESSAGE_CONTAINER_CSS_CLASS_NAME = "Zmm6We";
 const CHAT_MESSAGE_PARENT_CONTAINER_CLASS_NAME = "z38b6";
