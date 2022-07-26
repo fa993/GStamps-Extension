@@ -20,7 +20,6 @@ const SVG_HTML_ADD_ICON = "<svg xmlns=\"http:\/\/www.w3.org\/2000\/svg\" aria-hi
 
 const CONNECTING_LETTER_COUNT = 128;
 
-const apikey = "AIzaSyCnqAdF5QmZ8mH2LAGMQy6gRjiqjQXY6Go";
 const clientkey = "gstamps";
 const lmt = 8;
 
@@ -447,6 +446,7 @@ const setupStickerItemSelectionPanel = function() {
     // plusButton.classList.add('inactive');
     currentlySelectedModel = modelDivForEmoji;
     searchField.value = "";
+    searchField.setAttribute('placeholder', 'Search for Stickers, Emojis and Gifs...');
   });
 
   var emojiCategory = document.createElement('span');
@@ -470,6 +470,7 @@ const setupStickerItemSelectionPanel = function() {
     // plusButton.classList.add('inactive');
     currentlySelectedModel = modelDivForGif;
     searchField.value = "";
+    searchField.setAttribute('placeholder', 'Search Tenor');
   });
 
   var gifCategory = document.createElement('span');
@@ -492,6 +493,7 @@ const setupStickerItemSelectionPanel = function() {
     // plusButton.classList.remove('inactive');
     currentlySelectedModel = modelDivForSticker;
     searchField.value = "";
+    searchField.setAttribute('placeholder', 'Search for Stickers, Emojis and Gifs...');
   });
 
   var stickerCategory = document.createElement('span');
