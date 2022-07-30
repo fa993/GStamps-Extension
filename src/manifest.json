@@ -10,10 +10,6 @@
     "storage",
     "declarativeContent"
   ],
-  "host_permissions": [
-    "https://tenor.googleapis.com/v2/*",
-    "https://c.tenor.com/*"
-  ],
   "action" : {
     "default_popup" : "popup.html"
   },

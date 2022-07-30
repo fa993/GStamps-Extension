@@ -137,6 +137,10 @@
   text-align: center;
 }
 
+.gif-img {
+  max-width: 100%;
+}
+
 img.emoji {
    height: 3em;
    width: 3em;

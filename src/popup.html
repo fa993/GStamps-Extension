@@ -1,5 +1,29 @@
 <html>
+  <head>
+    <link rel="stylesheet" href="popup.css">
+  </head>
   <body>
+    <div class="choice-div" id="choiceDiv">
+      <input type="radio" id="upload" value="upload" name="choice" checked>
+      <label for="upload">Upload</label>
+      <input type="radio" id="add" value="add" name="choice">
+      <label for="add">Add</label>
+    </div>
+    <div id="mainDiv" class="body-div">
+      <input type="text" id="sticker-name-input" placeholder="Sticker Name">
+      <input type="text" id ="groups-input" name ="groups" list="groups" placeholder="Sticker Group Name">
+      <datalist id="groups">
+      </datalist>
+      <input type="file" id="sticker-file" accept="image/jpeg">
+      <div id="error-panel"></div>
+      <button disabled id="submit-button">Upload</button>
+    </div>
+    <div id = "addDiv" class="body-div inactive">
+      <input type="text" id="group-add-input" placeholder="Group id">
+      <input type="text" id="optionalTitle" placeholder="Group Name">
+      <button disabled id="add-button">Add</button>
+    </div>
+    <script src="uuidv4.min.js"></script>
     <script src="popup.js"></script>
   </body>
 </html>

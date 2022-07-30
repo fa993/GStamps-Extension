@@ -8,7 +8,7 @@ chrome.runtime.onInstalled.addListener(() => {
     let exampleRule = {
       conditions: [
         new chrome.declarativeContent.PageStateMatcher({
-          pageUrl: {urlContains: 'meet.google.com'},
+          pageUrl: {urlContains: ''},
         })
       ],
       actions: [new chrome.declarativeContent.ShowAction()],

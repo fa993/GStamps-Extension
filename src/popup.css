@@ -1,0 +1,18 @@
+.body-div {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+}
+
+.body-div > * {
+  margin: 5px;
+}
+
+.choice-div {
+  display: flex;
+  justify-content: center;
+}
+
+.inactive {
+  display: none;
+}
