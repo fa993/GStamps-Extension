@@ -744,7 +744,7 @@ const setupReplacer = function() {
           method: 'GET',
         }).then(r => r.text()).then(r => JSON.parse(r)).then(r => {
           imgTag.setAttribute("src", 'data:image/jpeg;base64,' + r.data)
-          imgTag.classList.add('gif-img');
+          imgTag.classList.add('sti-img');
         }).catch((error) => console.error('Couldnt get sticker:', error));
         tp.textContent = "";
         tp.append(imgTag);

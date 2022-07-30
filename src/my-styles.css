@@ -149,8 +149,12 @@
   text-align: center;
 }
 
-.gif-img {
+.sti-img {
   max-width: 25%;
+}
+
+.gif-img {
+  max-width: 100%;
 }
 
 img.emoji {
