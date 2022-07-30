@@ -47,6 +47,15 @@ renableButton = function() {
   }
 }
 
+function getBase64Image(img) {
+  var canvas = document.createElement("canvas");
+  canvas.width = img.width;
+  canvas.height = img.height;
+  var ctx = canvas.getContext("2d");
+  ctx.drawImage(img, 0, 0);
+  var dataURL = canvas.toDataURL("image/jpeg");
+  return dataURL.replace(/^data:image\/(png|jpeg);base64,/, "");
+}
 
 stName.addEventListener('input', () => {
   nameState = stName.value ? true : false;
@@ -58,8 +67,13 @@ fileField.addEventListener('input', () => {
   renableButton();
 });
 
+
+stickeriddsds = undefined;
+
 sub_btn.addEventListener('click', () => {
   //first check for correct file dimensions
+
+  console.log("Here now");
 
   var fileToLoad = fileField.files[0];
 
@@ -67,87 +81,108 @@ sub_btn.addEventListener('click', () => {
 
   var img = undefined;
 
+  const sticname = stName.value;
+  const name =   gpName.value;
+
+  fileReader.readAsDataURL(fileToLoad);
   fileReader.onload = function(fileLoadedEvent) {
     var srcData = fileLoadedEvent.target.result; // <--- data: base64
 
-    var newImage = document.createElement('img');
-    newImage.src = srcData;
+    // var newImage = document.createElement('img');
+    // newImage.src = srcData;
 
     img = new Image();
 
     img.src = srcData;
 
-    if(img.height != 512 || img.width != 512) {
-      error_panel.value = "Image must be 512x512";
-      return;
-    }
+    img.onload = function () {
+      console.log(img.height);
+      console.log(img.width);
 
-    console.log("Converted Base64 version is " + newImage.outerHTML);
-
-    //then fire API request to create sticker after encoding it with base 64 url and patch it in the group
-    var sticname = stName.value;
-    var group_id = undefined;
-
-    for(var i = 0; i < sts.length; i++) {
-      if(name == gpnan[i]) {
-        group_id = gpid[i];
-        break;
+      if(img.height != 512 || img.width != 512) {
+        error_panel.innerHTML = "Image must be 512x512";
+        return;
       }
-    }
 
-    if(group_id == undefined) {
-      //add group to localStorage and to datalist
+      const b64Img = getBase64Image(img);
 
-      group_id = uuidv4();
-      gpid.push(group_id);
-      gpnan.push(name);
-      chrome.storage.sync.set({
-        "group_name" : gpnan,
-        "group_id" : gpid,
-      }, () => console.log("Group updated"));
+      // const b64Img = encodeURIComponent(newImage.getAttribute('src').slice('data:image/jpeg;base64,'.length));
 
-      opt = document.createElement("option");
-      opt.textContent = sticname;
-      dlist.append(opt);
+      console.log("Converted Base64 version is " + b64Img);
 
+      //then fire API request to create sticker after encoding it with base 64 url and patch it in the group
+      var group_id = undefined;
 
-    }
+      if(name != "") {
 
-    var b64Img = newImage.outerHTML;
+        for(var i = 0; i < gpnan.length; i++) {
+          if(name == gpnan[i]) {
+            group_id = gpid[i];
+            break;
+          }
+        }
 
-    fetch("https://gstamps.herokuapp.com/sticker/create", {
-      method : 'POST',
-      body: JSON.stringify({
-        name : sticname,
-        data : newImage.outerHTML,
-      })
-    })
-    .then(r => r.text()).then(result => {
-      tty = JSON.parse(result);
-      st_ids = tty["data"]["object_id"]
-      stid.push(st_ids);
-      stnan.push(sticname);
-      chrome.storage.sync.set({
-        "sticker_name" : stnan,
-        "sticker_id" : stid,
-      }, () => console.log("Stickers updated"));
-      console.log(result);
-      fetch("https://gstamps.herokuapp.com/sticker/add-to-group?group_id=" + group_id, {
-        method : 'PATCH',
+        if(group_id == undefined) {
+          //add group to localStorage and to datalist
+
+          group_id = uuidv4();
+          gpid.push(group_id);
+          gpnan.push(name);
+          chrome.storage.sync.set({
+            "group_name" : gpnan,
+            "group_id" : gpid,
+          }, () => console.log("Group updated"));
+
+          opt = document.createElement("option");
+          opt.textContent = sticname;
+          dlist.append(opt);
+        }
+      }
+
+      fetch("https://gstamps.herokuapp.com/sticker/create", {
+        method : 'POST',
+        headers: {
+          'Accept': 'application/json, text/plain, */*',
+          'Content-Type': 'application/json'
+        },
         body: JSON.stringify({
-          sticker_id : st_ids,
+          name : sticname,
+          data : b64Img,
         })
-      }).then(r => r.text()).then(r => {
-        console.log(r);
-        error_panel.value = "Uploaded Successfully";
-      }).catch((error) => console.error('Couldnt add sticker to group:', error));
-    }).catch((error) => console.error('Couldnt create sticker:', error));
+      })
+      .then(r => r.text()).then(result => {
+        tty = JSON.parse(result);
+        stickeriddsds = tty["data"]["object_id"]
+        stid.push(stickeriddsds);
+        stnan.push(sticname);
+        chrome.storage.sync.set({
+          "sticker_name" : stnan,
+          "sticker_id" : stid,
+        }, () => console.log("Stickers updated"));
+        console.log(result);
+        error_panel.innerHTML = "Sticker Id: " + stickeriddsds + "<br>";
+        if(name != "") {
+          fetch("https://gstamps.herokuapp.com/sticker/add-to-group?group_id=" + group_id + "&name=" + name, {
+            method : 'PATCH',
+            body: JSON.stringify({
+              sticker_id : stickeriddsds,
+            })
+          }).then(r => r.text()).then(r => {
+            console.log(r);
+            error_panel.innerHTML += "Group Id: " + group_id;
+          }).catch((error) => console.error('Couldnt add sticker to group:', error));
+        }
+      }).catch((error) => console.error('Couldnt create sticker:', error));
+    };
 
-
-    gpName.value = "";
-    stName.value = "";
-    fileField.value = "";
   }
+
+  gpName.value = "";
+  stName.value = "";
+  fileField.value = "";
+  nameState = false;
+  fileState = false;
+  renableButton();
 
 });
 
@@ -165,7 +200,8 @@ group_add_input.addEventListener('change', () => {
 
 group_submit_button.addEventListener('click', () => {
   const rr = group_add_input.value;
-  fetch("http://localhost:3000/sticker/get-group?group_id=" + rr, {
+  fetch("https://gstamps.herokuapp.com/sticker/get-group?group_id=" + rr, {
+
     method: 'GET',
   }).then(r => r.text()).then(r => JSON.parse(r)).then(r => {
     sticksss = r.data;

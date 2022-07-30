@@ -187,16 +187,19 @@ stickerColl.add_reference(() => {
   imgTag.addEventListener('click', (e) => {
     var yy = imgTag.getAttribute("data-src");
     var nn = imgTag.getAttribute("data-name");
-    if(e.ctrlKey) {
+    if(e.shiftKey) {
       const idx = sticker_ids.indexOf(yy);
       sticker_ids.splice(idx, 1);
       sticker_names.splice(idx, 1);
       chrome.storage.sync.set({
        "sticker_id" : sticker_ids,
        "sticker_name" : sticker_names
-     }, () => console.log("Stickers updated"));
+     }, () => {
+       console.log("Stickers updated");
+       reloadStickers();
+      });
     } else {
-      textAreaNode.value = "GStampsImageData:Sti:" + rr + " " + nn;
+      textAreaNode.value = "GStampsImageData:Sti:" + yy + " " + nn;
       textAreaButton.removeAttribute('disabled');
       textAreaButton.click();
     }
@@ -212,6 +215,48 @@ function reload_gifs() {
     coll.change_url(i, loadedGifs[i]);
   }
   coll.new_length(loadedGifs.length);
+}
+
+function reloadStickers() {
+  chrome.storage.sync.get(["sticker_id", "sticker_name", "group_name", "group_id"], (items) => {
+
+    console.log(items.sticker_id);
+    sticker_names = [];
+    group_names = [];
+    group_ids = [];
+    sticker_ids = [];
+
+    if(items.sticker_name != undefined) {
+      sticker_names.push(...items.sticker_name);
+    }
+
+    if(items.group_name != undefined) {
+      group_names.push(...items.group_name);
+    }
+
+    if(items.group_id != undefined) {
+      group_ids.push(...items.group_id);
+    }
+
+    if(items.sticker_id != undefined) {
+      sticker_ids.push(...items.sticker_id);
+    }
+
+    stickerColl.grow(sticker_ids.length);
+
+    for(var i = 0; i < sticker_ids.length; i++) {
+      const tt = i;
+      fetch("https://gstamps.herokuapp.com/sticker/get-one?sticker_id=" + sticker_ids[tt], {
+        method: 'GET',
+      }).then(r => r.text()).then(r => JSON.parse(r)).then(r => {
+        stickerColl.references[tt].setAttribute('src', 'data:image/jpeg;base64,' + r.data);
+        stickerColl.references[tt].setAttribute('data-src', sticker_ids[tt]);
+        stickerColl.references[tt].setAttribute('data-name', sticker_names[tt]);
+      }).catch((error) => console.error('Couldnt get sticker:', error));
+    }
+    stickerColl.new_length(sticker_ids.length);
+
+  });
 }
 
 function gifCallback(responsetext)
@@ -512,7 +557,7 @@ const setupStickerItemSelectionPanel = function() {
 
   modelDivForSticker = document.createElement('div');
   modelDivForSticker.setAttribute('id', 'model-div-for-sticker');
-  modelDivForSticker.classList.add('item-model');
+  modelDivForSticker.classList.add('item-model-sticker');
   modelDivForSticker.classList.add('inactive');
 
 
@@ -545,40 +590,7 @@ const setupModelSticker = function () {
   //   "sticker_name" : ["asd", "Asd", "assdsds"]
   // });
 
-  chrome.storage.sync.get(["sticker_id", "sticker_name", "group_name", "group_id"], (items) => {
-
-    console.log(items.sticker_id);
-
-    if(items.sticker_name != undefined) {
-      sticker_names.push(...items.sticker_name);
-    }
-
-    if(items.group_name != undefined) {
-      group_names.push(...items.group_name);
-    }
-
-    if(items.group_id != undefined) {
-      group_ids.push(...items.group_id);
-    }
-
-    if(items.sticker_id != undefined) {
-      sticker_ids.push(...items.sticker_id);
-    }
-
-    stickerColl.grow(sticker_ids.length);
-
-    for(var i = 0; i < sticker_ids.length; i++) {
-      const tt = i;
-      fetch("https://gstamps.herokuapp.com/sticker/get-one?sticker_id=" + sticker_ids[tt], {
-        method: 'GET',
-      }).then(r => r.text()).then(r => JSON.parse(r)).then(r => {
-        stickerColl.references[tt].setAttribute('src', 'data:image/jpeg;base64,' + r.data);
-        stickerColl.references[tt].setAttribute('data-source', sticker_ids[tt]);
-      }).catch((error) => console.error('Couldnt get sticker:', error));
-    }
-    stickerColl.new_length(sticker_ids.length);
-
-  });
+  reloadStickers();
 }
 
 const setupModelGifs = function() {
@@ -709,7 +721,7 @@ const setupReplacer = function() {
         imgTag.setAttribute('data-src', pop2[0]);
         imgTag.setAttribute('data-name', pop2[1]);
         imgTag.addEventListener('click', (e) => {
-          if(e.ctrlKey) {
+          if(e.shiftKey) {
             //add to local localStorage
             //but first check if it exists
             for(var i = 0; i < sticker_ids.length; i++) {
@@ -717,13 +729,14 @@ const setupReplacer = function() {
                 return;
               }
             }
-            sticker_ids.push(pop2[0]);
-            sticker_names.push(pop2[1]);
 
             chrome.storage.sync.set({
              "sticker_id" : sticker_ids,
              "sticker_name" : sticker_names
-           }, () => console.log("Stickers updated"));
+           }, () => {
+             console.log("Stickers updated");
+             reloadStickers();
+           });
 
           }
         })

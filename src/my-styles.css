@@ -111,6 +111,18 @@
   gap: 10px 10px;
   justify-content: center;
   flex-grow: 1;
+  padding: 10px;
+}
+
+.item-model-sticker {
+  overflow-y: scroll;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+  box-sizing: border-box;
+  gap: 10px 10px;
+  justify-content: center;
+  flex-grow: 1;
+  padding: 10px;
 }
 
 .gif-item {
@@ -138,7 +150,7 @@
 }
 
 .gif-img {
-  max-width: 100%;
+  max-width: 25%;
 }
 
 img.emoji {
