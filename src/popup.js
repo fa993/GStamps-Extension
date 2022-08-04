@@ -38,6 +38,7 @@ var stnan = [];
 var gpnan = [];
 var gpid = [];
 var stid = [];
+var sttogp = [];
 
 renableButton = function() {
   if(nameState && fileState) {
@@ -153,12 +154,6 @@ sub_btn.addEventListener('click', () => {
       .then(r => r.text()).then(result => {
         tty = JSON.parse(result);
         stickeriddsds = tty["data"]["object_id"]
-        stid.push(stickeriddsds);
-        stnan.push(sticname);
-        chrome.storage.sync.set({
-          "sticker_name" : stnan,
-          "sticker_id" : stid,
-        }, () => console.log("Stickers updated"));
         console.log(result);
         error_panel.innerHTML = "Sticker Id: " + stickeriddsds + "<br>";
         if(name != "") {
@@ -170,8 +165,28 @@ sub_btn.addEventListener('click', () => {
           }).then(r => r.text()).then(r => {
             console.log(r);
             error_panel.innerHTML += "Group Id: " + group_id;
-          }).catch((error) => console.error('Couldnt add sticker to group:', error));
+          }).catch((error) => console.error('Couldnt add sticker to group:', error))
+          .finally(() => {
+            stid.push(stickeriddsds);
+            stnan.push(sticname);
+            sttogp.push(group_id);
+            chrome.storage.sync.set({
+              "sticker_name" : stnan,
+              "sticker_id" : stid,
+              "sticker_to_groups" : sttogp,
+            }, () => console.log("Stickers updated"));
+          });
+        } else {
+          stid.push(stickeriddsds);
+          stnan.push(sticname);
+          sttogp.push(-1);
+          chrome.storage.sync.set({
+            "sticker_name" : stnan,
+            "sticker_id" : stid,
+            "sticker_to_groups" : sttogp,
+          }, () => console.log("Stickers updated"));
         }
+
       }).catch((error) => console.error('Couldnt create sticker:', error));
     };
 
@@ -222,7 +237,14 @@ group_submit_button.addEventListener('click', () => {
 
 });
 
-chrome.storage.sync.get(["group_name", "group_id", "sticker_id", "sticker_name"], (items) => {
+chrome.storage.sync.get(["group_name", "group_id", "sticker_id", "sticker_name", "sticker_to_groups"], (items) => {
+
+  stnan = [];
+  gpnan = [];
+  gpid = [];
+  stid = [];
+  sttogp = [];
+
   if(items.sticker_name != undefined) {
     stnan.push(...items.sticker_name);
   }
@@ -239,6 +261,10 @@ chrome.storage.sync.get(["group_name", "group_id", "sticker_id", "sticker_name"]
     stid.push(...items.sticker_id);
   }
 
+  if(items.sticker_to_groups != undefined) {
+    sttogp.push(...items.sticker_to_groups);
+  }
+
   console.log(items);
   for(var i = 0; i < gpnan.length; i++) {
     opt = document.createElement("option");
@@ -248,3 +274,5 @@ chrome.storage.sync.get(["group_name", "group_id", "sticker_id", "sticker_name"]
 });
 
 console.log(uuidv4());
+
+// chrome.storage.sync.clear();

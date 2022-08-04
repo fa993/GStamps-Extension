@@ -8,6 +8,8 @@ const CHAT_MESSAGE_TEXT_BOX_ID = "bfTqV";
 const CHAT_MESSAGE_GROUP_CONTAINER_CLASSNAME = "GDhqjd";
 const CHAT_MESSAGE_SEND_BUTTON_JS_NAME = "SoqoBf";
 
+const ADVERT = "View this media with the GStamps Chrome Extension ";
+
 const SVG_HTML_STICKER = "<svg width=\"21\" height=\"27\" viewBox=\"0 0 21 20\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<path d=\"M17.0891 0C18.0468 0 18.9653 0.380455 19.6425 1.05767C20.3197 1.73488 20.7002 2.65338 20.7002 3.61111V11.11L15.4235 11.1111L15.1869 11.1189C14.549 11.1609 13.9338 11.3715 13.404 11.7291C12.8742 12.0868 12.4488 12.5786 12.1713 13.1544C11.7046 13.2811 11.2158 13.3433 10.7013 13.3433C9.57982 13.3551 8.48272 13.016 7.56353 12.3733C7.47364 12.3093 7.37193 12.2638 7.2643 12.2393C7.15667 12.2149 7.04526 12.2122 6.93654 12.2312C6.82783 12.2502 6.72397 12.2906 6.631 12.35C6.53802 12.4095 6.45779 12.4868 6.39495 12.5776C6.33211 12.6683 6.28792 12.7706 6.26494 12.8785C6.24196 12.9865 6.24065 13.0979 6.26109 13.2064C6.28153 13.3148 6.32331 13.4181 6.384 13.5103C6.44469 13.6025 6.52309 13.6817 6.61464 13.7433C7.81244 14.5794 9.24065 15.022 10.7013 15.01C10.9535 15.01 11.2013 14.9989 11.4469 14.9744L11.8124 14.93L11.8113 20H4.31131C3.35358 20 2.43508 19.6195 1.75787 18.9423C1.08065 18.2651 0.700195 17.3466 0.700195 16.3889V3.61111C0.700195 2.65338 1.08065 1.73488 1.75787 1.05767C2.43508 0.380455 3.35358 0 4.31131 0H17.0891ZM19.968 13.0222L13.7224 19.2667C13.6463 19.3425 13.5654 19.4134 13.4802 19.4789L13.478 14.7222L13.4846 14.5633C13.5223 14.1057 13.7206 13.6762 14.0446 13.3508C14.3686 13.0254 14.7972 12.8252 15.2546 12.7856L15.4224 12.7778H20.1802C20.1146 12.8633 20.0435 12.9444 19.9669 13.0222H19.968ZM7.36797 5.27778C7.18235 5.27253 6.99756 5.30455 6.82453 5.37196C6.6515 5.43937 6.49374 5.54079 6.36059 5.67023C6.22744 5.79967 6.12159 5.95449 6.04932 6.12555C5.97704 6.2966 5.9398 6.48041 5.9398 6.66611C5.9398 6.85181 5.97704 7.03562 6.04932 7.20668C6.12159 7.37773 6.22744 7.53256 6.36059 7.66199C6.49374 7.79143 6.6515 7.89286 6.82453 7.96026C6.99756 8.02767 7.18235 8.0597 7.36797 8.05444C7.72938 8.04408 8.0725 7.89318 8.32441 7.63384C8.57633 7.37449 8.71718 7.02713 8.71703 6.66557C8.71689 6.30402 8.57576 5.95677 8.32364 5.69762C8.07152 5.43847 7.72828 5.28786 7.36686 5.27778H7.36797ZM14.0346 5.27778C13.849 5.27253 13.6642 5.30455 13.4912 5.37196C13.3182 5.43937 13.1604 5.54079 13.0273 5.67023C12.8941 5.79967 12.7883 5.95449 12.716 6.12555C12.6437 6.2966 12.6065 6.48041 12.6065 6.66611C12.6065 6.85181 12.6437 7.03562 12.716 7.20668C12.7883 7.37773 12.8941 7.53256 13.0273 7.66199C13.1604 7.79143 13.3182 7.89286 13.4912 7.96026C13.6642 8.02767 13.849 8.0597 14.0346 8.05444C14.3961 8.04422 14.7392 7.89347 14.9912 7.63422C15.2433 7.37497 15.3842 7.02767 15.3842 6.66611C15.3842 6.30456 15.2433 5.95725 14.9912 5.69801C14.7392 5.43876 14.3961 5.288 14.0346 5.27778Z\" fill=\"#4D4D4D\"/>\n</svg>\n";
 
 const SVG_HTML_GIF = "<svg width=\"27\" height=\"27\" viewBox=\"0 0 27 20\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<path d=\"M0 4.16667C0 3.0616 0.501699 2.00179 1.39473 1.22039C2.28776 0.438987 3.49897 0 4.7619 0H21.9048C23.1677 0 24.3789 0.438987 25.2719 1.22039C26.165 2.00179 26.6667 3.0616 26.6667 4.16667V15.8333C26.6667 16.9384 26.165 17.9982 25.2719 18.7796C24.3789 19.561 23.1677 20 21.9048 20H4.7619C3.49897 20 2.28776 19.561 1.39473 18.7796C0.501699 17.9982 0 16.9384 0 15.8333V4.16667ZM7.7181 7.84333C8.63429 7.76 9.34286 7.90333 9.59619 8.015C9.70845 8.06797 9.83173 8.10067 9.95871 8.11116C10.0857 8.12165 10.2138 8.10972 10.3354 8.07606C10.457 8.04241 10.5697 7.98773 10.6667 7.91526C10.7637 7.84279 10.843 7.75401 10.9001 7.65419C10.9571 7.55437 10.9906 7.44555 10.9987 7.33417C11.0068 7.22279 10.9892 7.11113 10.947 7.00581C10.9048 6.90049 10.8388 6.80366 10.7531 6.72107C10.6673 6.63848 10.5634 6.5718 10.4476 6.525C9.77905 6.23167 8.68 6.08 7.52 6.18667C5.69143 6.35333 3.80952 7.74333 3.80952 10.015C3.80952 12.3233 5.81714 13.8483 8.19048 13.8483C9.29524 13.8483 10.2857 13.3933 10.8514 12.9267C11.3505 12.5133 11.4286 11.9633 11.4286 11.6217V10.015C11.4286 9.79399 11.3282 9.58202 11.1496 9.42574C10.971 9.26946 10.7288 9.18167 10.4762 9.18167H8.93905C8.68646 9.18167 8.44422 9.26946 8.26561 9.42574C8.08701 9.58202 7.98667 9.79399 7.98667 10.015C7.98667 10.236 8.08701 10.448 8.26561 10.6043C8.44422 10.7605 8.68646 10.8483 8.93905 10.8483H9.52381V11.62C9.52389 11.6602 9.52007 11.7004 9.51238 11.74C9.14128 12.0132 8.67529 12.1683 8.19048 12.18C6.7981 12.18 5.71429 11.34 5.71429 10.0133C5.71429 8.65167 6.79429 7.92833 7.7181 7.84333ZM15.2381 7.01667C15.2381 6.79565 15.1378 6.58369 14.9592 6.42741C14.7805 6.27113 14.5383 6.18333 14.2857 6.18333C14.0331 6.18333 13.7909 6.27113 13.6123 6.42741C13.4337 6.58369 13.3333 6.79565 13.3333 7.01667V13.0167C13.3333 13.2377 13.4337 13.4496 13.6123 13.6059C13.7909 13.7622 14.0331 13.85 14.2857 13.85C14.5383 13.85 14.7805 13.7622 14.9592 13.6059C15.1378 13.4496 15.2381 13.2377 15.2381 13.0167V7.01667ZM18.0952 6.18333C17.8427 6.18333 17.6004 6.27113 17.4218 6.42741C17.2432 6.58369 17.1429 6.79565 17.1429 7.01667V13.0167C17.1429 13.2377 17.2432 13.4496 17.4218 13.6059C17.6004 13.7622 17.8427 13.85 18.0952 13.85C18.3478 13.85 18.5901 13.7622 18.7687 13.6059C18.9473 13.4496 19.0476 13.2377 19.0476 13.0167V10.8417L20.9581 10.8317C21.2107 10.8303 21.4523 10.7413 21.6299 10.5841C21.8074 10.4268 21.9063 10.2143 21.9048 9.99333C21.9032 9.77232 21.8015 9.56088 21.6218 9.40554C21.4421 9.2502 21.1993 9.16367 20.9467 9.165L19.0476 9.17667V7.84833H21.9048C22.1573 7.84833 22.3996 7.76054 22.5782 7.60426C22.7568 7.44798 22.8571 7.23601 22.8571 7.015C22.8571 6.79399 22.7568 6.58203 22.5782 6.42574C22.3996 6.26946 22.1573 6.18167 21.9048 6.18167H18.0952V6.18333Z\" fill=\"#4D4D4D\"/>\n</svg>\n";
@@ -158,6 +160,16 @@ var sticker_ids = [];
 var sticker_names = [];
 var group_names = [];
 var group_ids = [];
+var sticker_to_groups = [];
+
+function search_for_gpname(id) {
+  for(var i = 0; i < group_ids.length; i++) {
+    if(group_ids[i] == id) {
+      return group_names[i];
+    }
+  }
+  return undefined;
+}
 
 coll = new ReferenceCollection();
 coll.add_reference(() => {
@@ -169,7 +181,7 @@ coll.add_reference(() => {
   modelDivForGif.append(imgTag);
   imgTag.addEventListener('click', () => {
     var yy = imgTag.getAttribute("src");
-    textAreaNode.value = "GStampsImageData:Gif:" + yy;
+    textAreaNode.value = ADVERT + "GStampsImageData:Gif:" + yy;
     textAreaButton.removeAttribute('disabled');
     textAreaButton.click();
   });
@@ -189,17 +201,24 @@ stickerColl.add_reference(() => {
     var nn = imgTag.getAttribute("data-name");
     if(e.shiftKey) {
       const idx = sticker_ids.indexOf(yy);
-      sticker_ids.splice(idx, 1);
-      sticker_names.splice(idx, 1);
+      if(idx != -1) {
+        sticker_ids.splice(idx, 1);
+        sticker_names.splice(idx, 1);
+        sticker_to_groups.splice(idx, 1);
+      }
       chrome.storage.sync.set({
        "sticker_id" : sticker_ids,
-       "sticker_name" : sticker_names
+       "sticker_name" : sticker_names,
+       "sticker_to_groups" : sticker_to_groups
      }, () => {
        console.log("Stickers updated");
        reloadStickers();
       });
     } else {
-      textAreaNode.value = "GStampsImageData:Sti:" + yy + " " + nn;
+      textAreaNode.value = ADVERT + "GStampsImageData:Sti:" + yy + " " + nn;
+      if(imgTag.hasAttribute('data-group')) {
+        textAreaNode.value += " " + imgTag.getAttribute('data-group') + " " + imgTag.getAttribute('data-group-name');
+      }
       textAreaButton.removeAttribute('disabled');
       textAreaButton.click();
     }
@@ -218,13 +237,15 @@ function reload_gifs() {
 }
 
 function reloadStickers() {
-  chrome.storage.sync.get(["sticker_id", "sticker_name", "group_name", "group_id"], (items) => {
+
+  chrome.storage.sync.get(["sticker_id", "sticker_name", "group_name", "group_id", "sticker_to_groups"], (items) => {
 
     console.log(items.sticker_id);
     sticker_names = [];
     group_names = [];
     group_ids = [];
     sticker_ids = [];
+    sticker_to_groups = [];
 
     if(items.sticker_name != undefined) {
       sticker_names.push(...items.sticker_name);
@@ -242,7 +263,15 @@ function reloadStickers() {
       sticker_ids.push(...items.sticker_id);
     }
 
+    if(items.sticker_to_groups != undefined) {
+      sticker_to_groups.push(...items.sticker_to_groups);
+    }
+
     stickerColl.grow(sticker_ids.length);
+
+    if(currentlySelectedModel == modelDivForSticker) {
+      searchField.value = "";
+    }
 
     for(var i = 0; i < sticker_ids.length; i++) {
       const tt = i;
@@ -252,11 +281,30 @@ function reloadStickers() {
         stickerColl.references[tt].setAttribute('src', 'data:image/jpeg;base64,' + r.data);
         stickerColl.references[tt].setAttribute('data-src', sticker_ids[tt]);
         stickerColl.references[tt].setAttribute('data-name', sticker_names[tt]);
+        if(sticker_to_groups[tt] != -1) {
+          stickerColl.references[tt].setAttribute('data-group', sticker_to_groups[tt]);
+          stickerColl.references[tt].setAttribute('data-group-name', search_for_gpname(sticker_to_groups[tt]))
+        }
       }).catch((error) => console.error('Couldnt get sticker:', error));
     }
     stickerColl.new_length(sticker_ids.length);
 
   });
+
+  chrome.storage.onChanged.addListener(function (changes, namespace) {
+  for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
+
+
+    window[key] = newValue;
+    console.log(key);
+    console.log(newValue);
+    // console.log(
+    //   `Storage key "${key}" in namespace "${namespace}" changed.`,
+    //   `Old value was "${oldValue}", new value is "${newValue}".`
+    // );
+  }
+  reloadStickers();
+});
 }
 
 function gifCallback(responsetext)
@@ -590,6 +638,22 @@ const setupModelSticker = function () {
   //   "sticker_name" : ["asd", "Asd", "assdsds"]
   // });
 
+  searchField.addEventListener("input", () => {
+    if(currentlySelectedModel != modelDivForSticker) {
+      return;
+    }
+    const searchTerm = searchField.value;
+
+    for(var i = 0; i < stickerColl.references.length; i++) {
+      if(stickerColl.references[i].getAttribute('data-name').includes(searchTerm)) {
+        stickerColl.references[i].classList.remove('inactive');
+      } else {
+        stickerColl.references[i].classList.add('inactive');
+      }
+    }
+
+  });
+
   reloadStickers();
 }
 
@@ -615,6 +679,7 @@ const setupModelGifs = function() {
     loadedGifs = [];
     while(!get_featured()) {
     }
+    modelDivForGif.scrollTo(0, 0);
   })
 
 }
@@ -697,8 +762,9 @@ const setupReplacer = function() {
   console.log(tgN);
 
   var workFunction = function(tp, dc, rc) {
-    if(tp.textContent.startsWith("GStampsImageData:")) {
-      var uui = tp.textContent.slice("GStampsImageData:".length);
+    const actTextCon = tp.textContent.slice(ADVERT.length);
+    if(actTextCon.startsWith("GStampsImageData:")) {
+      var uui = actTextCon.slice("GStampsImageData:".length);
       var pop = undefined;
       if(uui.startsWith("Gif:")) {
         pop = uui.slice("Gif:".length);
@@ -712,14 +778,32 @@ const setupReplacer = function() {
 
         tp.append(imgTag);
         rc();
+        tgN.scrollTo(0, tgN.scrollHeight);
       } else if(uui.startsWith("Sti:")) {
         pop = uui.slice("Sti:".length);
         pos = pop.indexOf(" ");
-        pop2 = [pop.substr(0, pos), pop.substr(pos + 1)];
+        pos2 = pop.indexOf(" ", pos + 1);
+        pos3 = pop.indexOf(" ", pos2 + 1);
+        res1 = undefined;
+        res2 = undefined;
+        res3 = undefined;
+        if(pos2 == -1) {
+          res1 = pop.substr(pos + 1);
+          res2 = -1;
+        } else {
+          res1 = pop.substr(pos + 1, pos2 - pos - 1);
+          res2 = pop.substr(pos2 + 1, pos3 - pos2 - 1);
+          res3 = pop.substr(pos3 + 1);
+        }
+        pop2 = [pop.substr(0, pos), res1, res2, res3];
         dc();
         var imgTag = document.createElement("img");
         imgTag.setAttribute('data-src', pop2[0]);
         imgTag.setAttribute('data-name', pop2[1]);
+        if(pop2[2] != -1) {
+          imgTag.setAttribute('data-group', pop2[2]);
+          imgTag.setAttribute('data-group-name', pop2[3])
+        }
         imgTag.addEventListener('click', (e) => {
           if(e.shiftKey) {
             //add to local localStorage
@@ -729,15 +813,59 @@ const setupReplacer = function() {
                 return;
               }
             }
+            sticker_ids.push(pop2[0]);
+            sticker_names.push(pop2[1]);
+            sticker_to_groups.push(pop2[2]);
 
             chrome.storage.sync.set({
              "sticker_id" : sticker_ids,
-             "sticker_name" : sticker_names
+             "sticker_name" : sticker_names,
+             "sticker_to_groups" : sticker_to_groups,
            }, () => {
              console.log("Stickers updated");
              reloadStickers();
            });
+         }
+        })
+        imgTag.addEventListener('dblclick', (e) => {
+          if(e.shiftKey) {
+            //add group to localStorage if it exists
 
+            if(imgTag.hasAttribute('data-group')) {
+              const rr = imgTag.getAttribute('data-group');
+
+              //if we already have group in id then delete it
+              const idx = group_ids.indexOf(rr);
+              if(idx != -1) {
+                group_ids.splice(idx, 1);
+                group_names.splice(idx, 1);
+              }
+
+              fetch("https://gstamps.herokuapp.com/sticker/get-group?group_id=" + rr, {
+                method: 'GET',
+              }).then(r => r.text()).then(r => JSON.parse(r)).then(r => {
+                //To Test
+                sticksss = r.data;
+                for(var i = 0; i < sticksss.length; i++) {
+                  sticker_names.push(sticksss[i].name);
+                  sticker_ids.push(sticksss[i]._id);
+                }
+                group_ids.push(rr);
+                group_names.push(imgTag.getAttribute('data-group-name'));
+                chrome.storage.sync.set({
+                  "group_name" : group_names,
+                  "group_id" : group_ids,
+                  "sticker_name" : sticker_names,
+                  "sticker_id" : sticker_ids,
+                  "sticker_to_groups" : sticker_to_groups
+                }, () => {
+                  console.log("All data updated");
+                  reloadStickers();
+                });
+
+              }).catch((error) => console.error('Couldnt get sticker group:', error));
+
+            }
           }
         })
         fetch("https://gstamps.herokuapp.com/sticker/get-one?sticker_id=" + pop2[0], {
@@ -745,6 +873,7 @@ const setupReplacer = function() {
         }).then(r => r.text()).then(r => JSON.parse(r)).then(r => {
           imgTag.setAttribute("src", 'data:image/jpeg;base64,' + r.data)
           imgTag.classList.add('sti-img');
+          tgN.scrollTo(0, tgN.scrollHeight);
         }).catch((error) => console.error('Couldnt get sticker:', error));
         tp.textContent = "";
         tp.append(imgTag);
