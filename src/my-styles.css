@@ -157,6 +157,11 @@
   max-width: 100%;
 }
 
+.hint-tag {
+  color: rgb(154, 160, 166);
+  font-size: 80%;
+}
+
 img.emoji {
    height: 3em;
    width: 3em;
