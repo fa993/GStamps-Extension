@@ -2,27 +2,35 @@
   <head>
     <link rel="stylesheet" href="popup.css">
   </head>
-  <body>
-    <div class="choice-div" id="choiceDiv">
-      <input type="radio" id="upload" value="upload" name="choice" checked>
-      <label for="upload">Upload</label>
-      <input type="radio" id="add" value="add" name="choice">
-      <label for="add">Add</label>
+  <body class="top-level">
+    <div id="page1" class="inactive">
+      <!-- <div id="drop-zone" class="drop-area">
+        <div class="drop-text">
+          + Drop your sticker here
+        </div>
+      </div> -->
     </div>
-    <div id="mainDiv" class="body-div">
-      <input type="text" id="sticker-name-input" placeholder="Sticker Name">
-      <input type="text" id ="groups-input" name ="groups" list="groups" placeholder="Sticker Group Name">
+    <div id="page2">
+      <div class="centered">
+        <div class="title-label">Add Your Sticker</div>
+        <svg class="svg-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18.496 3.627C18.9357 3.78152 19.3166 4.06877 19.586 4.44907C19.8554 4.82937 20.0001 5.28394 20 5.75V15.75C20 16.8772 19.5522 17.9582 18.7552 18.7552C17.9582 19.5522 16.8772 20 15.75 20H5.75C5.28394 20.0001 4.82937 19.8554 4.44907 19.586C4.06877 19.3166 3.78152 18.9357 3.627 18.496L5.724 18.5H15.75C16.4793 18.5 17.1788 18.2103 17.6945 17.6945C18.2103 17.1788 18.5 16.4793 18.5 15.75V5.75L18.496 5.699V3.627ZM15.246 0C15.8427 0 16.415 0.237053 16.837 0.65901C17.2589 1.08097 17.496 1.65326 17.496 2.25V15.247C17.496 15.8437 17.2589 16.416 16.837 16.838C16.415 17.2599 15.8427 17.497 15.246 17.497H2.25C1.65326 17.497 1.08097 17.2599 0.65901 16.838C0.237053 16.416 0 15.8437 0 15.247V2.25C0 1.65326 0.237053 1.08097 0.65901 0.65901C1.08097 0.237053 1.65326 0 2.25 0H15.247H15.246ZM15.246 1.5H2.25C2.05109 1.5 1.86032 1.57902 1.71967 1.71967C1.57902 1.86032 1.5 2.05109 1.5 2.25V15.247C1.5 15.661 1.836 15.997 2.25 15.997H15.247C15.4459 15.997 15.6367 15.918 15.7773 15.7773C15.918 15.6367 15.997 15.4459 15.997 15.247V2.25C15.997 2.05109 15.918 1.86032 15.7773 1.71967C15.6367 1.57902 15.4459 1.5 15.247 1.5H15.246ZM8.75 4.75C8.94891 4.75 9.13968 4.82902 9.28033 4.96967C9.42098 5.11032 9.5 5.30109 9.5 5.5V8H12C12.1989 8 12.3897 8.07902 12.5303 8.21967C12.671 8.36032 12.75 8.55109 12.75 8.75C12.75 8.94891 12.671 9.13968 12.5303 9.28033C12.3897 9.42098 12.1989 9.5 12 9.5H9.5V12C9.5 12.1989 9.42098 12.3897 9.28033 12.5303C9.13968 12.671 8.94891 12.75 8.75 12.75C8.55109 12.75 8.36032 12.671 8.21967 12.5303C8.07902 12.3897 8 12.1989 8 12V9.5H5.5C5.30109 9.5 5.11032 9.42098 4.96967 9.28033C4.82902 9.13968 4.75 8.94891 4.75 8.75C4.75 8.55109 4.82902 8.36032 4.96967 8.21967C5.11032 8.07902 5.30109 8 5.5 8H8V5.5C8 5.30109 8.07902 5.11032 8.21967 4.96967C8.36032 4.82902 8.55109 4.75 8.75 4.75Z" fill="#666666"/>
+        </svg>
+      </div>
+      <div class="file-input">
+        <input type="file" id="sticker-file" accept="image/jpeg" class="actual-file-input">
+      </div>
+      <div id = "preview-container" class="preview-container">
+      </div>
+      <img class="preview" id="preview">
+      <input type="text" id="sticker-name-input" placeholder="Sticker Name" class="sticker-name">
+      <input type="text" id ="groups-input" name="groups" list="groups" placeholder="Sticker Group Name" class="group-name-input">
       <datalist id="groups">
       </datalist>
-      <input type="file" id="sticker-file" accept="image/jpeg">
-      <div id="error-panel"></div>
-      <button disabled id="submit-button">Upload</button>
     </div>
-    <div id = "addDiv" class="body-div inactive">
-      <input type="text" id="group-add-input" placeholder="Group id">
-      <input type="text" id="optionalTitle" placeholder="Group Name">
-      <button disabled id="add-button">Add</button>
-    </div>
+    <div style="display: none;" id="error-panel"></div>
+    <div class="info-panel" id="info-panel"></div>
+    <button disabled id="submit-button" class="save-button disabled-state">Add a sticker</button>
     <script src="uuidv4.min.js"></script>
     <script src="popup.js"></script>
   </body>

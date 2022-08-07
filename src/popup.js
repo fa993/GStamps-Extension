@@ -2,24 +2,10 @@ console.log("Doneee");
 
 setTimeout(() => console.log("Doneee"), 1000);
 
-var add_radio_button = document.getElementById('add');
-var upload_radio_button = document.getElementById('upload');
+const pg1= document.getElementById('page1');
+const pg2 = document.getElementById("page2");
 
-var addDiv = document.getElementById('addDiv');
-var uploadDiv = document.getElementById('mainDiv');
-
-var addRadio = document.getElementById('add');
-var uploadRadio = document.getElementById('upload');
-
-document.getElementById('choiceDiv').addEventListener('change', () => {
-  if(addRadio.checked) {
-    uploadDiv.classList.add('inactive');
-    addDiv.classList.remove('inactive');
-  } else {
-    addDiv.classList.add('inactive');
-    uploadDiv.classList.remove('inactive');
-  }
-})
+const infoDiv = document.getElementById('info-panel');
 
 var dlist = document.getElementById('groups')
 var sub_btn = document.getElementById('submit-button');
@@ -31,6 +17,11 @@ var fileField = document.getElementById('sticker-file');
 
 const error_panel = document.getElementById('error-panel');
 
+const dropArea = document.getElementById('drop-zone');
+
+const previewArea = document.getElementById('preview');
+previewArea.style.visibility = "hidden";
+
 var nameState = false;
 var fileState = false;
 
@@ -40,13 +31,82 @@ var gpid = [];
 var stid = [];
 var sttogp = [];
 
+var selectedFile = undefined;
+
+var animationHandler = undefined;
+var animationTick = 0;
+
+actualLoader = function() {
+  rer = "Loading";
+  for(var rrt = 0; rrt <= animationTick; rrt++) {
+    rer += ".";
+  }
+  infoDiv.textContent = rer;
+  animationTick++;
+  animationTick = animationTick % 3;
+
+}
+
+setupLoading = function() {
+  animationHandler = setInterval(actualLoader, 500);
+}
+
+cancelLoading = function() {
+  clearInterval(animationHandler);
+}
+
+setupDone = function() {
+  infoDiv.textContent = "Done";
+}
+
 renableButton = function() {
   if(nameState && fileState) {
     sub_btn.removeAttribute('disabled')
+    sub_btn.classList.remove('disabled-state')
   } else {
     sub_btn.setAttribute('disabled', "");
+    sub_btn.classList.add('disabled-state')
   }
 }
+
+setupPreview = function() {
+  var reader = new FileReader();
+
+  reader.onload = function(event) {
+    previewArea.src = event.target.result;
+    previewArea.style.visibility = "visible";
+  };
+
+  reader.readAsDataURL(selectedFile);
+}
+
+switchContext = function() {
+  // if(pg1.classList.contains("inactive")) {
+  //   pg1.classList.remove('inactive');
+  //   pg2.classList.add('inactive');
+  // } else {
+  //   pg2.classList.remove('inactive');
+  //   pg1.classList.add('inactive');
+  //   setupPreview();
+  // }
+}
+
+// dropArea.addEventListener('dragover', (ev) => {
+//   // Prevent default behavior (Prevent file from being opened)
+//   ev.preventDefault();
+// });
+//
+// dropArea.addEventListener('drop', (ev) => {
+//   console.log('File(s) dropped');
+//   fileState = ev.dataTransfer.files.length == 1;
+//   if(fileState) {
+//     selectedFile = ev.dataTransfer.files[0];
+//     switchContext();
+//   }
+//   renableButton();
+//   // Prevent default behavior (Prevent file from being opened)
+//   ev.preventDefault();
+// });
 
 function getBase64Image(img) {
   var canvas = document.createElement("canvas");
@@ -65,6 +125,11 @@ stName.addEventListener('input', () => {
 
 fileField.addEventListener('input', () => {
   fileState = fileField.files.length == 1;
+  if(fileState) {
+    selectedFile = fileField.files[0];
+    switchContext();
+    setupPreview();
+  }
   renableButton();
 });
 
@@ -75,8 +140,9 @@ sub_btn.addEventListener('click', () => {
   //first check for correct file dimensions
 
   console.log("Here now");
+  setupLoading();
 
-  var fileToLoad = fileField.files[0];
+  var fileToLoad = selectedFile;
 
   var fileReader = new FileReader();
 
@@ -102,6 +168,8 @@ sub_btn.addEventListener('click', () => {
 
       if(img.height != 512 || img.width != 512) {
         error_panel.innerHTML = "Image must be 512x512";
+        cancelLoading();
+        infoDiv.textContent = "Image must be 512x512";
         return;
       }
 
@@ -135,7 +203,7 @@ sub_btn.addEventListener('click', () => {
           }, () => console.log("Group updated"));
 
           opt = document.createElement("option");
-          opt.textContent = sticname;
+          opt.textContent = name;
           dlist.append(opt);
         }
       }
@@ -158,7 +226,10 @@ sub_btn.addEventListener('click', () => {
         error_panel.innerHTML = "Sticker Id: " + stickeriddsds + "<br>";
         if(name != "") {
           fetch("https://gstamps.herokuapp.com/sticker/add-to-group?group_id=" + group_id + "&name=" + name, {
-            method : 'PATCH',
+            method : 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
             body: JSON.stringify({
               sticker_id : stickeriddsds,
             })
@@ -175,6 +246,10 @@ sub_btn.addEventListener('click', () => {
               "sticker_id" : stid,
               "sticker_to_groups" : sttogp,
             }, () => console.log("Stickers updated"));
+            cancelLoading();
+            setupDone();
+            switchContext();
+            previewArea.style.visibility = "hidden";
           });
         } else {
           stid.push(stickeriddsds);
@@ -185,6 +260,10 @@ sub_btn.addEventListener('click', () => {
             "sticker_id" : stid,
             "sticker_to_groups" : sttogp,
           }, () => console.log("Stickers updated"));
+          cancelLoading();
+          setupDone();
+          switchContext();
+          previewArea.style.visibility = "hidden";
         }
 
       }).catch((error) => console.error('Couldnt create sticker:', error));
@@ -198,42 +277,6 @@ sub_btn.addEventListener('click', () => {
   nameState = false;
   fileState = false;
   renableButton();
-
-});
-
-var group_add_input = document.getElementById("group-add-input");
-var group_submit_button = document.getElementById('add-button');
-var optionalTitle = document.getElementById('optionalTitle');
-
-group_add_input.addEventListener('change', () => {
-  if(group_add_input.value) {
-    group_submit_button.removeAttribute('disabled');
-  } else {
-    group_submit_button.setAttribute('disabled', '');
-  }
-});
-
-group_submit_button.addEventListener('click', () => {
-  const rr = group_add_input.value;
-  fetch("https://gstamps.herokuapp.com/sticker/get-group?group_id=" + rr, {
-
-    method: 'GET',
-  }).then(r => r.text()).then(r => JSON.parse(r)).then(r => {
-    sticksss = r.data;
-    for(var i = 0; i < sticksss.length; i++) {
-      stnan.push(sticksss[i].name);
-      stid.push(sticksss[i]._id);
-    }
-    gpid.push(rr);
-    gpnan.push(optionalTitle.value);
-    chrome.storage.sync.set({
-      "group_name" : gpnan,
-      "group_id" : gpid,
-      "sticker_name" : stnan,
-      "sticker_id" : stid,
-    }, () => console.log("All data updated"));
-
-  }).catch((error) => console.error('Couldnt get sticker group:', error));
 
 });
 

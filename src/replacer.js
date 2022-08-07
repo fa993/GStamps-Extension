@@ -204,9 +204,13 @@ stickerColl.add_reference(() => {
     if(e.shiftKey) {
       const idx = sticker_ids.indexOf(yy);
       if(idx != -1) {
+        const val = sticker_ids[idx];
         sticker_ids.splice(idx, 1);
         sticker_names.splice(idx, 1);
         sticker_to_groups.splice(idx, 1);
+        fetch("https://gstamps.herokuapp.com/sticker/remove-user?sticker_id=" + val, {
+          method: 'POST',
+        }).catch((error) => console.error('Couldnt delete sticker (Possible orphan case):', error));
       }
       chrome.storage.sync.set({
        "sticker_id" : sticker_ids,
@@ -293,20 +297,6 @@ function reloadStickers() {
 
   });
 
-  chrome.storage.onChanged.addListener(function (changes, namespace) {
-  for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
-
-
-    window[key] = newValue;
-    console.log(key);
-    console.log(newValue);
-    // console.log(
-    //   `Storage key "${key}" in namespace "${namespace}" changed.`,
-    //   `Old value was "${oldValue}", new value is "${newValue}".`
-    // );
-  }
-  reloadStickers();
-});
 }
 
 function gifCallback(responsetext)
@@ -815,6 +805,11 @@ const setupReplacer = function() {
                 return;
               }
             }
+
+            fetch("https://gstamps.herokuapp.com/sticker/add-user?sticker_id=" + pop2[0], {
+              method: 'POST',
+            }).catch((error) => console.error('Couldnt add sticker (Possible orphan case):', error));
+
             sticker_ids.push(pop2[0]);
             sticker_names.push(pop2[1]);
             sticker_to_groups.push(pop2[2]);
@@ -849,8 +844,18 @@ const setupReplacer = function() {
                 //To Test
                 sticksss = r.data;
                 for(var i = 0; i < sticksss.length; i++) {
+                  const idx = sticker_ids.indexOf(sticksss[i]._id)
+                  if(idx != -1) {
+                    sticker_names.splice(idx, 1);
+                    sticker_ids.splice(idx, 1);
+                    sticker_to_groups.splice(idx, 1);
+                  }
+                  fetch("https://gstamps.herokuapp.com/sticker/add-user?sticker_id=" + sticksss[i]._id, {
+                    method: 'POST',
+                  }).catch((error) => console.error('Couldnt add sticker (Possible orphan case):', error));
                   sticker_names.push(sticksss[i].name);
                   sticker_ids.push(sticksss[i]._id);
+                  sticker_to_groups.push(rr);
                 }
                 group_ids.push(rr);
                 group_names.push(imgTag.getAttribute('data-group-name'));
@@ -882,10 +887,14 @@ const setupReplacer = function() {
         if(hint_limit > 0) {
           hintTag = document.createElement('div');
           hintTag.textContent = "(Hint: Shift + Click to add this sticker to your collection)";
-          // (Hint: Shift + Double Click to add the entire sticker collection this sticker belongs to)";
           hintTag.classList.add("hint-tag");
+          tp.append(hintTag);
+          hintTag = document.createElement('div');
+          hintTag.textContent = "(Hint: Shift + Double Click to add the entire sticker collection this sticker belongs to)";
+          hintTag.classList.add("hint-tag");
+          tp.append(hintTag);
+          hint_limit--;
         }
-        tp.append(hintTag);
         rc();
       } else {
         return;
@@ -918,6 +927,7 @@ const setupReplacer = function() {
 
           // processNodeForEmoji(toProcess[j].getElementsByClassName(CHAT_MESSAGE_CSS_CLASS_NAME)[0]);
         }
+        tgN.scrollTo(0, tgN.scrollHeight);
       }
     }
   }
@@ -947,6 +957,21 @@ const initCallback = function() {
     textAreaButton = document.querySelector('button[jsname="' + CHAT_MESSAGE_SEND_BUTTON_JS_NAME + '"]')
   }
 }
+
+chrome.storage.onChanged.addListener(function (changes, namespace) {
+for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
+
+
+  window[key] = newValue;
+  console.log(key);
+  console.log(newValue);
+  // console.log(
+  //   `Storage key "${key}" in namespace "${namespace}" changed.`,
+  //   `Old value was "${oldValue}", new value is "${newValue}".`
+  // );
+}
+reloadStickers();
+});
 
 // setTimeout(textBoxCallback, 1000);
 setTimeout(initCallback, 1000);
