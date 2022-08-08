@@ -812,23 +812,24 @@ const setupReplacer = function() {
           imgTag.setAttribute('data-group', pop2[2]);
           imgTag.setAttribute('data-group-name', pop2[3])
         }
+        const pop_local = [...pop2];
         imgTag.addEventListener('click', (e) => {
           if(e.shiftKey) {
             //add to local localStorage
             //but first check if it exists
             for(var i = 0; i < sticker_ids.length; i++) {
-              if(sticker_ids[i] == pop2[0]) {
+              if(sticker_ids[i] == pop_local[0]) {
                 return;
               }
             }
 
-            fetch("https://gstamps.herokuapp.com/sticker/add-user?sticker_id=" + pop2[0], {
+            fetch("https://gstamps.herokuapp.com/sticker/add-user?sticker_id=" + pop_local[0], {
               method: 'POST',
             }).catch((error) => console.error('Couldnt add sticker (Possible orphan case):', error));
 
-            sticker_ids.unshift(pop2[0]);
-            sticker_names.unshift(pop2[1]);
-            sticker_to_groups.unshift(pop2[2]);
+            sticker_ids.unshift(pop_local[0]);
+            sticker_names.unshift(pop_local[1]);
+            sticker_to_groups.unshift(pop_local[2]);
 
             chrome.storage.sync.set({
              "sticker_id" : sticker_ids,
@@ -892,16 +893,16 @@ const setupReplacer = function() {
             }
           }
         })
-        if(cached_stickers.has(pop2[0])) {
-          imgTag.setAttribute("src", cached_stickers.get(pop2[0]));
+        if(cached_stickers.has(pop_local[0])) {
+          imgTag.setAttribute("src", cached_stickers.get(pop_local[0]));
           imgTag.classList.add('sti-img');
           tgN.scrollTo(0, tgN.scrollHeight);
         } else {
-          fetch("https://gstamps.herokuapp.com/sticker/get-one?sticker_id=" + pop2[0], {
+          fetch("https://gstamps.herokuapp.com/sticker/get-one?sticker_id=" + pop_local[0], {
             method: 'GET',
           }).then(r => r.text()).then(r => JSON.parse(r)).then(r => {
             stiData = 'data:image/png;base64,' + r.data;
-            cached_stickers.set(pop2[0], stiData);
+            cached_stickers.set(pop_local[0], stiData);
             imgTag.setAttribute("src", stiData);
             imgTag.classList.add('sti-img');
             tgN.scrollTo(0, tgN.scrollHeight);
