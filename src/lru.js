@@ -16,15 +16,15 @@
  *
  *  removed  <--  <--  <--  <--  <--  <--  <--  <--  <--  <--  <--  added
  */
-!function(g,f){
-  if (typeof exports == 'object' && typeof module != "undefined") {
-    f(exports)
-  } else if (typeof define == 'function' && define.amd) {
-    define(["exports"], f)
-  } else {
-    f((g = g || self)["lru_map"] = (g["lru_map"] || {}))
-  }
-}(this, function(exports) {
+// !function(g,f){
+//   if (typeof exports == 'object' && typeof module != "undefined") {
+//     f(exports)
+//   } else if (typeof define == 'function' && define.amd) {
+//     define(["exports"], f)
+//   } else {
+//     f((g = g || self)["lru_map"] = (g["lru_map"] || {}))
+//   }
+// }(this, function(exports) {
 
 const NEWER = Symbol('newer');
 const OLDER = Symbol('older');
@@ -259,7 +259,7 @@ class LRUMap {
   }
 }
 
-exports.LRUMap = LRUMap
+// exports.LRUMap = LRUMap
 
 function Entry(key, value) {
   this.key = key;
@@ -306,4 +306,4 @@ ValueIterator.prototype.next = function() {
   }
 };
 
-});
+// });
