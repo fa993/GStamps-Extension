@@ -138,6 +138,8 @@ class ReferenceCollection {
 
 }
 
+let cached_stickers = new LRUMap(40);
+
 loadedGifs = [];
 lastLoadedGifLength = 0;
 loading = false;
@@ -281,17 +283,29 @@ function reloadStickers() {
 
     for(var i = 0; i < sticker_ids.length; i++) {
       const tt = i;
-      fetch("https://gstamps.herokuapp.com/sticker/get-one?sticker_id=" + sticker_ids[tt], {
-        method: 'GET',
-      }).then(r => r.text()).then(r => JSON.parse(r)).then(r => {
-        stickerColl.references[tt].setAttribute('src', 'data:image/jpeg;base64,' + r.data);
+      if(cached_stickers.has(sticker_ids[tt])) {
+        stickerColl.references[tt].setAttribute('src', cached_stickers.get(sticker_ids[tt]));
         stickerColl.references[tt].setAttribute('data-src', sticker_ids[tt]);
         stickerColl.references[tt].setAttribute('data-name', sticker_names[tt]);
         if(sticker_to_groups[tt] != -1) {
           stickerColl.references[tt].setAttribute('data-group', sticker_to_groups[tt]);
           stickerColl.references[tt].setAttribute('data-group-name', search_for_gpname(sticker_to_groups[tt]))
         }
-      }).catch((error) => console.error('Couldnt get sticker:', error));
+      } else {
+        fetch("https://gstamps.herokuapp.com/sticker/get-one?sticker_id=" + sticker_ids[tt], {
+          method: 'GET',
+        }).then(r => r.text()).then(r => JSON.parse(r)).then(r => {
+          let stiData = 'data:image/jpeg;base64,' + r.data;
+          cached_stickers.set(sticker_ids[tt], stiData);
+          stickerColl.references[tt].setAttribute('src', stiData);
+          stickerColl.references[tt].setAttribute('data-src', sticker_ids[tt]);
+          stickerColl.references[tt].setAttribute('data-name', sticker_names[tt]);
+          if(sticker_to_groups[tt] != -1) {
+            stickerColl.references[tt].setAttribute('data-group', sticker_to_groups[tt]);
+            stickerColl.references[tt].setAttribute('data-group-name', search_for_gpname(sticker_to_groups[tt]))
+          }
+        }).catch((error) => console.error('Couldnt get sticker:', error));
+      }
     }
     stickerColl.new_length(sticker_ids.length);
 
@@ -636,7 +650,7 @@ const setupModelSticker = function () {
     }
     const searchTerm = searchField.value;
 
-    for(var i = 0; i < stickerColl.references.length; i++) {
+    for(var i = 0; i < stickerColl.length; i++) {
       if(stickerColl.references[i].getAttribute('data-name').includes(searchTerm)) {
         stickerColl.references[i].classList.remove('inactive');
       } else {
@@ -875,13 +889,21 @@ const setupReplacer = function() {
             }
           }
         })
-        fetch("https://gstamps.herokuapp.com/sticker/get-one?sticker_id=" + pop2[0], {
-          method: 'GET',
-        }).then(r => r.text()).then(r => JSON.parse(r)).then(r => {
-          imgTag.setAttribute("src", 'data:image/jpeg;base64,' + r.data)
+        if(cached_stickers.has(pop2[0])) {
+          imgTag.setAttribute("src", cached_stickers.get(pop2[0]));
           imgTag.classList.add('sti-img');
           tgN.scrollTo(0, tgN.scrollHeight);
-        }).catch((error) => console.error('Couldnt get sticker:', error));
+        } else {
+          fetch("https://gstamps.herokuapp.com/sticker/get-one?sticker_id=" + pop2[0], {
+            method: 'GET',
+          }).then(r => r.text()).then(r => JSON.parse(r)).then(r => {
+            stiData = 'data:image/jpeg;base64,' + r.data;
+            cached_stickers.set(pop2[0], stiData);
+            imgTag.setAttribute("src", stiData);
+            imgTag.classList.add('sti-img');
+            tgN.scrollTo(0, tgN.scrollHeight);
+          }).catch((error) => console.error('Couldnt get sticker:', error));
+        }
         tp.textContent = "";
         tp.append(imgTag);
         if(hint_limit > 0) {
