@@ -151,6 +151,7 @@
 
 .sti-img {
   max-width: 50%;
+  background-color: white;
 }
 
 .gif-img {
@@ -158,8 +159,9 @@
 }
 
 .hint-tag {
-  color: rgb(154, 160, 166);
-  font-size: 80%;
+  /* color: rgb(154, 160, 166); */
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 90%;
 }
 
 img.emoji {

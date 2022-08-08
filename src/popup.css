@@ -35,11 +35,10 @@
 .preview {
   /* Philosoraptor-meme */
   position: absolute;
-
-  width: 149px;
-  height: 120px;
-  left: 23px;
-  top: 44px;
+  width: 140px;
+  height: 140px;
+  left: 24px;
+  top: 24px;
 }
 
 .save-button {
@@ -146,7 +145,7 @@
 
 .info-panel {
   position: absolute;
-  top: 169px;
+  top: 176px;
   width: 399px;
   left: 0px;
   text-align: center;
@@ -162,9 +161,9 @@
 
 .preview-container {
   position: absolute;
-  width: 149px;
-  height: 120px;
-  left: 23px;
-  top: 44px;
+  width: 140px;
+  height: 140px;
+  left: 24px;
+  top: 24px;
   border: 1px solid black;
 }

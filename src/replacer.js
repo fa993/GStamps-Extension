@@ -248,7 +248,7 @@ function reloadStickers() {
 
   chrome.storage.sync.get(["sticker_id", "sticker_name", "group_name", "group_id", "sticker_to_groups"], (items) => {
 
-    console.log(items.sticker_id);
+    // console.log(items.sticker_id);
     sticker_names = [];
     group_names = [];
     group_ids = [];
@@ -295,7 +295,7 @@ function reloadStickers() {
         fetch("https://gstamps.herokuapp.com/sticker/get-one?sticker_id=" + sticker_ids[tt], {
           method: 'GET',
         }).then(r => r.text()).then(r => JSON.parse(r)).then(r => {
-          let stiData = 'data:image/jpeg;base64,' + r.data;
+          let stiData = 'data:image/png;base64,' + r.data;
           cached_stickers.set(sticker_ids[tt], stiData);
           stickerColl.references[tt].setAttribute('src', stiData);
           stickerColl.references[tt].setAttribute('data-src', sticker_ids[tt]);
@@ -322,26 +322,29 @@ function gifCallback(responsetext)
     loadedGifs.push(...top_8_gifs.map(t => t["images"]["fixed_height"]["url"]));
     console.log(loadedGifs.length);
     reload_gifs();
+    loading = false;
     return;
 }
 
-function httpGetAsync(theUrl, callback, cbd)
+function httpGetAsync(theUrl, callback, cbd, prev, old)
 {
 
     fetch(theUrl, {
       method : 'GET',
     })
     .then(r => r.text()).then(result => {
-      callback(result);
+      if(next == prev && old == srch_term) {
+        callback(result);
+      }
       cbd();
-    }).catch((error) => console.error('Couldnt get gif:', error));
+      loading = false;
+    }).catch((error) => console.error('Couldnt get gif:', error))
 
     return;
 }
 
-function get_featured(cbd = () => {}) {
-
-  if(loading) {
+function get_featured(cbd = () => {}, force = true) {
+  if(loading && !force) {
     return !loading;
   } else {
     loading = true;
@@ -355,16 +358,16 @@ function get_featured(cbd = () => {}) {
 
   previous_srch = srch_term;
 
+  const prev = next;
+  const old = srch_term;
+
   search_url += "&search=" + srch_term;
 
-  console.log(search_url)
+  // console.log(search_url)
 
-  httpGetAsync(search_url,gifCallback, cbd);
-
-  loading = false;
-
+  httpGetAsync(search_url,gifCallback, cbd, prev, old);
   // data will be loaded by each call's callback
-  return !loading;
+  return true;
 }
 
 matcher = new SpecializedTrie();
@@ -669,7 +672,7 @@ const setupModelGifs = function() {
     modelDivForGif.addEventListener('scroll', event => {
       if(modelDivForGif.scrollHeight - modelDivForGif.scrollTop - modelDivForGif.clientHeight < 5) {
         next+= 1;
-        if(!get_featured()) {
+        if(!get_featured(() => {}, false)) {
           next -= 1;
         }
       }
@@ -683,8 +686,7 @@ const setupModelGifs = function() {
     srch_term = searchField.value;
     next = 1;
     loadedGifs = [];
-    while(!get_featured()) {
-    }
+    get_featured();
     modelDivForGif.scrollTo(0, 0);
   })
 
@@ -707,7 +709,7 @@ const setupModelEmoji = function() {
     pi.addEventListener('click', (e) => {
       textAreaNode.value = textAreaNode.value + value;
       textAreaButton.removeAttribute('disabled');
-      console.log(value);
+      // console.log(value);
       twemoji.parse(textAreaNode);
     });
     emojiColl.references.push(pi);
@@ -824,9 +826,9 @@ const setupReplacer = function() {
               method: 'POST',
             }).catch((error) => console.error('Couldnt add sticker (Possible orphan case):', error));
 
-            sticker_ids.push(pop2[0]);
-            sticker_names.push(pop2[1]);
-            sticker_to_groups.push(pop2[2]);
+            sticker_ids.unshift(pop2[0]);
+            sticker_names.unshift(pop2[1]);
+            sticker_to_groups.unshift(pop2[2]);
 
             chrome.storage.sync.set({
              "sticker_id" : sticker_ids,
@@ -863,13 +865,14 @@ const setupReplacer = function() {
                     sticker_names.splice(idx, 1);
                     sticker_ids.splice(idx, 1);
                     sticker_to_groups.splice(idx, 1);
+                  } else {
+                    fetch("https://gstamps.herokuapp.com/sticker/add-user?sticker_id=" + sticksss[i]._id, {
+                      method: 'POST',
+                    }).catch((error) => console.error('Couldnt add sticker (Possible orphan case):', error));
                   }
-                  fetch("https://gstamps.herokuapp.com/sticker/add-user?sticker_id=" + sticksss[i]._id, {
-                    method: 'POST',
-                  }).catch((error) => console.error('Couldnt add sticker (Possible orphan case):', error));
-                  sticker_names.push(sticksss[i].name);
-                  sticker_ids.push(sticksss[i]._id);
-                  sticker_to_groups.push(rr);
+                  sticker_names.unshift(sticksss[i].name);
+                  sticker_ids.unshift(sticksss[i]._id);
+                  sticker_to_groups.unshift(rr);
                 }
                 group_ids.push(rr);
                 group_names.push(imgTag.getAttribute('data-group-name'));
@@ -897,7 +900,7 @@ const setupReplacer = function() {
           fetch("https://gstamps.herokuapp.com/sticker/get-one?sticker_id=" + pop2[0], {
             method: 'GET',
           }).then(r => r.text()).then(r => JSON.parse(r)).then(r => {
-            stiData = 'data:image/jpeg;base64,' + r.data;
+            stiData = 'data:image/png;base64,' + r.data;
             cached_stickers.set(pop2[0], stiData);
             imgTag.setAttribute("src", stiData);
             imgTag.classList.add('sti-img');
@@ -936,7 +939,7 @@ const setupReplacer = function() {
     for(var i = 0; i < mutationList.length; i++) {
     // for(var i = 0; i < 1; i++) {
       var toProcess = mutationList[i].addedNodes;
-      console.log(toProcess);
+      // console.log(toProcess);
       for(var j = 0; j < toProcess.length; j++) {
         if(toProcess[j].classList == undefined) {
           continue;
@@ -985,8 +988,8 @@ for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
 
 
   window[key] = newValue;
-  console.log(key);
-  console.log(newValue);
+  // console.log(key);
+  // console.log(newValue);
   // console.log(
   //   `Storage key "${key}" in namespace "${namespace}" changed.`,
   //   `Old value was "${oldValue}", new value is "${newValue}".`

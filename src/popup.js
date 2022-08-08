@@ -238,9 +238,9 @@ sub_btn.addEventListener('click', () => {
             error_panel.innerHTML += "Group Id: " + group_id;
           }).catch((error) => console.error('Couldnt add sticker to group:', error))
           .finally(() => {
-            stid.push(stickeriddsds);
-            stnan.push(sticname);
-            sttogp.push(group_id);
+            stid.unshift(stickeriddsds);
+            stnan.unshift(sticname);
+            sttogp.unshift(group_id);
             chrome.storage.sync.set({
               "sticker_name" : stnan,
               "sticker_id" : stid,
@@ -252,9 +252,9 @@ sub_btn.addEventListener('click', () => {
             previewArea.style.visibility = "hidden";
           });
         } else {
-          stid.push(stickeriddsds);
-          stnan.push(sticname);
-          sttogp.push(-1);
+          stid.unshift(stickeriddsds);
+          stnan.unshift(sticname);
+          sttogp.unshift(-1);
           chrome.storage.sync.set({
             "sticker_name" : stnan,
             "sticker_id" : stid,

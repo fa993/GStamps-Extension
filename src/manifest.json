@@ -20,5 +20,8 @@
       "css": ["my-styles.css"],
       "js": ["twemoji.min.js", "lru.js", "replacer.js"]
     }
-  ]
+  ],
+  "icons" : {
+    "128" : "logo.png"
+  }
 }
