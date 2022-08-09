@@ -3,12 +3,8 @@
   "description": "Stickers for google meet",
   "version": "0.0",
   "manifest_version": 3,
-  "background": {
-    "service_worker": "background.js"
-  },
   "permissions": [
-    "storage",
-    "declarativeContent"
+    "storage"
   ],
   "action" : {
     "default_popup" : "popup.html"
