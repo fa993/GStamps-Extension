@@ -1,6 +1,6 @@
 {
-  "name": "GStamps",
-  "description": "Stickers for google meet",
+  "name": "StampIt",
+  "description": "Stickers for Google Meet Chat",
   "version": "0.1",
   "manifest_version": 3,
   "permissions": [
