@@ -1,0 +1,169 @@
+.body-div {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+}
+
+.body-div > * {
+  margin: 5px;
+}
+
+.choice-div {
+  display: flex;
+  justify-content: center;
+}
+
+.inactive {
+  display: none;
+}
+
+.sticker-name {
+  /* Add you sticker */
+  position: absolute;
+
+  width: 183px;
+  height: 26px;
+  left: 191px;
+  top: 69px;
+
+  background: #FEFDFD;
+  border: 1px solid #1A73E8;
+  border-radius: 5px;
+
+}
+
+.preview {
+  /* Philosoraptor-meme */
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  left: 24px;
+  top: 24px;
+}
+
+.save-button {
+  /* Rectangle 72 */
+  position: absolute;
+  box-sizing: border-box;
+
+  width: 316px;
+  height: 35px;
+  left: 41px;
+  top: 204px;
+
+  background: #1A73E8;
+  border: 1.5px solid #1A73E8;
+  border-radius: 16px;
+  color: #FFFFFF;
+
+}
+
+.group-name-input {
+  /* Rectangle 74 */
+  position: absolute;
+  box-sizing: border-box;
+
+  width: 183px;
+  height: 26px;
+  left: 191px;
+  top: 105px;
+
+  background: #EBEBEB;
+  border: 1px solid #FFFFFF;
+  border-radius: 5px;
+}
+
+.title-label {
+  /* Add you sticker */
+
+  position: absolute;
+  width: 149px;
+  height: 24px;
+  left: 194px;
+  top: 31px;
+
+  font-size: 20px;
+
+  color: rgba(0, 0, 0, 0.6);
+
+}
+
+.svg-icon {
+  position: absolute;
+  left: 349px;
+  top: 33px;
+}
+
+.disabled-state {
+  background-color: rgb(228, 229, 255);
+  color: rgb(171, 171, 171);
+  border: none;
+}
+
+.centered {
+  text-align: center;
+}
+
+.drop-area {
+  box-sizing: border-box;
+
+  position: absolute;
+  width: 350px;
+  height: 74px;
+  left: 24px;
+  top: 20px;
+
+  background: #EBEBEB;
+  border-radius: 14px;
+
+}
+
+.drop-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%)
+}
+
+.file-input {
+
+  position: absolute;
+  width: 183px;
+  height: 26px;
+  left: 191px;
+  top: 141px;
+
+}
+
+.actual-file-input {
+  text-align: center;
+  /* position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) */
+}
+
+.info-panel {
+  position: absolute;
+  top: 176px;
+  width: 399px;
+  left: 0px;
+  text-align: center;
+}
+
+.top-level {
+  width: 399px;
+  height: 255px;
+
+  background: #FFFFFF;
+  border-radius: 5px;
+}
+
+.preview-container {
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  left: 24px;
+  top: 24px;
+  border: 1px solid black;
+}
