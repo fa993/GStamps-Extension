@@ -210,7 +210,7 @@ stickerColl.add_reference(() => {
         sticker_ids.splice(idx, 1);
         sticker_names.splice(idx, 1);
         sticker_to_groups.splice(idx, 1);
-        fetch("https://gstamps.herokuapp.com/sticker/remove-user?sticker_id=" + val, {
+        fetch("https://gstamps.onrender.com/sticker/remove-user?sticker_id=" + val, {
           method: 'POST',
         }).catch((error) => console.error('Couldnt delete sticker (Possible orphan case):', error));
       }
@@ -292,7 +292,7 @@ function reloadStickers() {
           stickerColl.references[tt].setAttribute('data-group-name', search_for_gpname(sticker_to_groups[tt]))
         }
       } else {
-        fetch("https://gstamps.herokuapp.com/sticker/get-one?sticker_id=" + sticker_ids[tt], {
+        fetch("https://gstamps.onrender.com/sticker/get-one?sticker_id=" + sticker_ids[tt], {
           method: 'GET',
         }).then(r => r.text()).then(r => JSON.parse(r)).then(r => {
           let stiData = 'data:image/png;base64,' + r.data;
@@ -350,7 +350,7 @@ function get_featured(cbd = () => {}, force = true) {
     loading = true;
   }
   // using default locale of en_US
-  var search_url = "https://gstamps.herokuapp.com/gif/search?page=" + next + "&page_size=" + lmt;
+  var search_url = "https://gstamps.onrender.com/gif/search?page=" + next + "&page_size=" + lmt;
 
   if(srch_term.length == 0) {
     srch_term = "trending";
@@ -823,7 +823,7 @@ const setupReplacer = function() {
               }
             }
 
-            fetch("https://gstamps.herokuapp.com/sticker/add-user?sticker_id=" + pop_local[0], {
+            fetch("https://gstamps.onrender.com/sticker/add-user?sticker_id=" + pop_local[0], {
               method: 'POST',
             }).catch((error) => console.error('Couldnt add sticker (Possible orphan case):', error));
 
@@ -855,7 +855,7 @@ const setupReplacer = function() {
                 group_names.splice(idx, 1);
               }
 
-              fetch("https://gstamps.herokuapp.com/sticker/get-group?group_id=" + rr, {
+              fetch("https://gstamps.onrender.com/sticker/get-group?group_id=" + rr, {
                 method: 'GET',
               }).then(r => r.text()).then(r => JSON.parse(r)).then(r => {
                 //To Test
@@ -867,7 +867,7 @@ const setupReplacer = function() {
                     sticker_ids.splice(idx, 1);
                     sticker_to_groups.splice(idx, 1);
                   } else {
-                    fetch("https://gstamps.herokuapp.com/sticker/add-user?sticker_id=" + sticksss[i]._id, {
+                    fetch("https://gstamps.onrender.com/sticker/add-user?sticker_id=" + sticksss[i]._id, {
                       method: 'POST',
                     }).catch((error) => console.error('Couldnt add sticker (Possible orphan case):', error));
                   }
@@ -898,7 +898,7 @@ const setupReplacer = function() {
           imgTag.classList.add('sti-img');
           tgN.scrollTo(0, tgN.scrollHeight);
         } else {
-          fetch("https://gstamps.herokuapp.com/sticker/get-one?sticker_id=" + pop_local[0], {
+          fetch("https://gstamps.onrender.com/sticker/get-one?sticker_id=" + pop_local[0], {
             method: 'GET',
           }).then(r => r.text()).then(r => JSON.parse(r)).then(r => {
             stiData = 'data:image/png;base64,' + r.data;

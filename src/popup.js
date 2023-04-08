@@ -208,7 +208,7 @@ sub_btn.addEventListener('click', () => {
         }
       }
 
-      fetch("https://gstamps.herokuapp.com/sticker/create", {
+      fetch("https://gstamps.onrender.com/sticker/create", {
         method : 'POST',
         headers: {
           'Accept': 'application/json, text/plain, */*',
@@ -225,7 +225,7 @@ sub_btn.addEventListener('click', () => {
         console.log(result);
         error_panel.innerHTML = "Sticker Id: " + stickeriddsds + "<br>";
         if(name != "") {
-          fetch("https://gstamps.herokuapp.com/sticker/add-to-group?group_id=" + group_id + "&name=" + name, {
+          fetch("https://gstamps.onrender.com/sticker/add-to-group?group_id=" + group_id + "&name=" + name, {
             method : 'POST',
             headers: {
               'Content-Type': 'application/json'
