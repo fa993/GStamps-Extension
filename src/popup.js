@@ -59,6 +59,10 @@ setupDone = function() {
   infoDiv.textContent = "Done";
 }
 
+setupFailed = function() {
+  infoDiv.textContent = "Failed";
+}
+
 renableButton = function() {
   if(nameState && fileState) {
     sub_btn.removeAttribute('disabled')
@@ -110,10 +114,18 @@ switchContext = function() {
 
 function getBase64Image(img) {
   var canvas = document.createElement("canvas");
-  canvas.width = img.width;
-  canvas.height = img.height;
+
+  var scaledDim2 = Math.max(img.width, img.height);
+  var ratio = scaledDim2 / 512;
+
+  canvas.width = img.width / ratio;
+  canvas.height = img.height / ratio;
+
+  console.log(canvas.width);
+  console.log(canvas.height);
+
   var ctx = canvas.getContext("2d");
-  ctx.drawImage(img, 0, 0);
+  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
   var dataURL = canvas.toDataURL("image/jpeg");
   return dataURL.replace(/^data:image\/(png|jpeg);base64,/, "");
 }
@@ -166,12 +178,12 @@ sub_btn.addEventListener('click', () => {
       console.log(img.height);
       console.log(img.width);
 
-      if(img.height != 512 || img.width != 512) {
-        error_panel.innerHTML = "Image must be 512x512";
-        cancelLoading();
-        infoDiv.textContent = "Image must be 512x512";
-        return;
-      }
+      // if(img.height != 512 || img.width != 512) {
+      //   error_panel.innerHTML = "Image must be 512x512";
+      //   cancelLoading();
+      //   infoDiv.textContent = "Image must be 512x512";
+      //   return;
+      // }
 
       const b64Img = getBase64Image(img);
 
@@ -236,7 +248,9 @@ sub_btn.addEventListener('click', () => {
           }).then(r => r.text()).then(r => {
             console.log(r);
             error_panel.innerHTML += "Group Id: " + group_id;
-          }).catch((error) => console.error('Couldnt add sticker to group:', error))
+          }).catch((error) => {
+            console.error('Couldnt add sticker to group:', error)
+          })
           .finally(() => {
             stid.unshift(stickeriddsds);
             stnan.unshift(sticname);
@@ -266,7 +280,11 @@ sub_btn.addEventListener('click', () => {
           previewArea.style.visibility = "hidden";
         }
 
-      }).catch((error) => console.error('Couldnt create sticker:', error));
+      }).catch((error) => {
+        console.error('Couldnt create sticker:', error)
+        cancelLoading();
+        setupFailed();
+      });
     };
 
   }

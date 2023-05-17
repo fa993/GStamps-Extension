@@ -152,6 +152,7 @@
 .sti-img {
   max-width: 50%;
   background-color: white;
+  object-fit: scale-down;
 }
 
 .gif-img {

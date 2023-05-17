@@ -39,6 +39,7 @@
   height: 140px;
   left: 24px;
   top: 24px;
+  object-fit: scale-down;
 }
 
 .save-button {
