@@ -1,7 +1,7 @@
 {
   "name": "StampIt",
   "description": "Stickers for Google Meet Chat",
-  "version": "0.1",
+  "version": "0.3",
   "manifest_version": 3,
   "permissions": [
     "storage"
